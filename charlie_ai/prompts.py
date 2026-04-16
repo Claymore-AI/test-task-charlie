@@ -31,7 +31,7 @@ from .models import (
     Message,
 )
 
-# ── History window ───────────────────────────────────────────────────────
+# History window
 
 MAX_HISTORY_TURNS = 10  # last N messages included in prompts
 
@@ -54,7 +54,7 @@ def build_conversation_messages(
     ]
 
 
-# ── Charlie persona (system prompt) ─────────────────────────────────────
+# Charlie persona (system prompt)
 
 CHARLIE_SYSTEM_PROMPT = """\
 You are Charlie — an 8-year-old fox cub from London who teaches English to \
@@ -93,7 +93,7 @@ Always respond ONLY with valid JSON. No markdown, no extra text.\
 """
 
 
-# ── Evaluator system prompt ──────────────────────────────────────────────
+# Evaluator system prompt
 
 EVALUATOR_SYSTEM_PROMPT = """\
 You are an evaluation module for a children's English lesson. Your job is to \
@@ -136,7 +136,7 @@ Respond ONLY with valid JSON:
 """
 
 
-# ── Engagement-aware prompt modifiers ────────────────────────────────────
+# Engagement-aware prompt modifiers
 
 
 def _engagement_context(state: LessonState) -> str:
@@ -175,7 +175,7 @@ def _engagement_context(state: LessonState) -> str:
     return "\n".join(parts) if parts else ""
 
 
-# ── Pronunciation helpers ────────────────────────────────────────────────
+# Pronunciation helpers
 
 
 # Simple phonetic hints for common lesson words.  In production this
@@ -198,7 +198,7 @@ def get_phonetic_hint(word: str) -> str | None:
     return _PHONETIC_HINTS.get(word.lower())
 
 
-# ── Activity-specific instructions ───────────────────────────────────────
+# Activity-specific instructions 
 
 
 _ACTIVITY_INSTRUCTIONS: dict[ActivityType, str] = {
@@ -223,7 +223,7 @@ _ACTIVITY_INSTRUCTIONS: dict[ActivityType, str] = {
 }
 
 
-# ── Message builders (one per agent interaction) ─────────────────────────
+# Message builders (one per agent interaction)
 
 
 def greeting_messages(state: LessonState) -> list[dict[str, str]]:

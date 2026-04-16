@@ -22,8 +22,7 @@ from enum import Enum
 from pydantic import BaseModel, Field
 
 
-# ── Enums ────────────────────────────────────────────────────────────────
-
+# Enums
 
 class Phase(str, Enum):
     """Top-level lesson phase."""
@@ -89,7 +88,7 @@ ACTIVITY_DIFFICULTY: dict[ActivityType, int] = {
 }
 
 
-# ── Conversation history ─────────────────────────────────────────────────
+# Conversation history
 
 
 class Message(BaseModel):
@@ -99,7 +98,7 @@ class Message(BaseModel):
     text: str
 
 
-# ── Per-word progress ────────────────────────────────────────────────────
+# Per-word progress
 
 
 class WordProgress(BaseModel):
@@ -112,7 +111,7 @@ class WordProgress(BaseModel):
     last_eval: EvalStatus | None = None
 
 
-# ── Session state ────────────────────────────────────────────────────────
+# Session state
 
 
 class LessonState(BaseModel):
@@ -123,19 +122,19 @@ class LessonState(BaseModel):
     mobile app.
     """
 
-    # ── Phase control ────────────────────────────────────────────────
+    # Phase control
     phase: Phase = Phase.GREETING
     sub_phase: SubPhase = SubPhase.INTRODUCE
     greeting_sent: bool = False
 
-    # ── Vocabulary progress ──────────────────────────────────────────
+    # Vocabulary progress
     words: list[str] = Field(default_factory=list)
     word_index: int = 0
     attempt: int = 0
     current_activity: ActivityType = ActivityType.REPEAT
     word_progress: list[WordProgress] = Field(default_factory=list)
 
-    # ── Engagement tracking ──────────────────────────────────────────
+    # Engagement tracking
     child_name: str | None = None
     streak: int = 0
     consecutive_silence: int = 0
@@ -143,7 +142,7 @@ class LessonState(BaseModel):
     total_correct: int = 0
     total_attempts: int = 0
 
-    # ── Conversation history ─────────────────────────────────────────
+    # Conversation history
     history: list[Message] = Field(default_factory=list)
 
     def init_word_progress(self) -> None:
@@ -164,7 +163,7 @@ class LessonState(BaseModel):
         return None
 
 
-# ── Lesson progress (for UI) ────────────────────────────────────────────
+# Lesson progress (for UI)
 
 
 class LessonProgress(BaseModel):
@@ -177,7 +176,7 @@ class LessonProgress(BaseModel):
     score: int  # total_correct
 
 
-# ── LLM response schemas (one per agent) ────────────────────────────────
+# LLM response schemas (one per agent)
 
 
 class CharlieMessage(BaseModel):
@@ -214,7 +213,7 @@ class SafetyVerdict(BaseModel):
     reason: str | None = None
 
 
-# ── Structured turn response for frontend ────────────────────────────────
+# Structured turn response for frontend
 
 
 class TurnResponse(BaseModel):

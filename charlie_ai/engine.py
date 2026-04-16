@@ -110,7 +110,7 @@ class LessonEngine:
                 progress=self.get_progress(),
             )
 
-        # ── Sanitize input ───────────────────────────────────────────
+        # Sanitize input
         clean_input = InputSanitizer.sanitize(user_input)
 
         try:

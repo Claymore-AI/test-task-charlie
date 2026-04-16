@@ -25,11 +25,11 @@ app = FastAPI(
     description="Multi-agent lesson engine for children's English vocabulary.",
 )
 
-# ── In-memory session store (swap for Redis in production) ────────────
+# In-memory session store (swap for Redis in production)
 _sessions: dict[str, LessonEngine] = {}
 
 
-# ── Request / Response schemas ────────────────────────────────────────
+# Request / Response schemas 
 
 class StartRequest(BaseModel):
     words: list[str] = Field(..., min_length=1)
@@ -44,7 +44,7 @@ class TurnRequest(BaseModel):
     text: str = ""
 
 
-# ── Endpoints ─────────────────────────────────────────────────────────
+# Endpoints
 
 @app.post("/lesson/start", response_model=StartResponse)
 async def start_lesson(req: StartRequest) -> StartResponse:

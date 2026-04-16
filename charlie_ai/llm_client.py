@@ -59,7 +59,6 @@ class LLMClient:
         *response_model* instance.
 
         Parameters
-        ----------
         messages:
             OpenAI-format list of ``{"role": ..., "content": ...}`` dicts.
             The caller is responsible for structuring system / user /

@@ -70,7 +70,7 @@ class PhaseHandler(ABC):
         """Process *user_input* and return ``(TurnResponse, new_state)``."""
 
 
-# ── Greeting ─────────────────────────────────────────────────────────────
+# Greeting
 
 
 class GreetingHandler(PhaseHandler):
@@ -142,7 +142,7 @@ class GreetingHandler(PhaseHandler):
                     return
 
 
-# ── Vocabulary ───────────────────────────────────────────────────────────
+# Vocabulary
 
 
 class VocabularyHandler(PhaseHandler):
@@ -212,7 +212,7 @@ class VocabularyHandler(PhaseHandler):
         if wp:
             wp.attempts += 1
 
-        # ── Safety check on input ────────────────────────────────────
+        # Safety check on input
         input_verdict = self.safety.check_input(user_input)
         if not input_verdict.is_safe:
             logger.warning("Input flagged: %s", input_verdict.reason)
@@ -223,7 +223,7 @@ class VocabularyHandler(PhaseHandler):
                 reasoning="Input flagged by safety filter.",
             )
         else:
-            # ── Evaluator agent ──────────────────────────────────────
+            # Evaluator agent
             eval_result = await self.evaluator.evaluate(
                 child_input=user_input,
                 target_word=word,
@@ -239,12 +239,12 @@ class VocabularyHandler(PhaseHandler):
         if wp:
             wp.last_eval = eval_result.status
 
-        # ── Update engagement signals ────────────────────────────────
+        # Update engagement signals
         self._update_engagement(state, eval_result.status)
 
         is_last = state.attempt >= settings.max_attempts_per_word
 
-        # ── Responder agent ──────────────────────────────────────────
+        # Responder agent
         resp = await self.responder.respond(
             eval_result=eval_result,
             target_word=word,
@@ -253,7 +253,7 @@ class VocabularyHandler(PhaseHandler):
             is_last_attempt=is_last,
         )
 
-        # ── Safety check on output ───────────────────────────────────
+        # Safety check on output
         output_ok, output_reason = OutputGuardrail.check(resp.message)
         if not output_ok:
             logger.warning("Output guardrail: %s", output_reason)
@@ -261,7 +261,7 @@ class VocabularyHandler(PhaseHandler):
 
         state.history.append(Message(role="charlie", text=resp.message))
 
-        # ── Advance logic ────────────────────────────────────────────
+        # Advance logic
         if eval_result.status == EvalStatus.CORRECT:
             if wp:
                 wp.is_mastered = True
@@ -318,8 +318,7 @@ class VocabularyHandler(PhaseHandler):
             state.sub_phase = SubPhase.INTRODUCE
 
 
-# ── Review ───────────────────────────────────────────────────────────────
-
+# Review
 
 class ReviewHandler(PhaseHandler):
     """Quick recap game — Charlie asks riddle-style questions about
@@ -345,8 +344,7 @@ class ReviewHandler(PhaseHandler):
         ), state
 
 
-# ── Farewell ─────────────────────────────────────────────────────────────
-
+# Farewell
 
 class FarewellHandler(PhaseHandler):
     """Wraps up the lesson with a warm, personalized goodbye."""

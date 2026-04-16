@@ -39,7 +39,7 @@ from .models import (
 logger = logging.getLogger(__name__)
 
 
-# ── Safety Agent ─────────────────────────────────────────────────────────
+# Safety Agent 
 
 
 class SafetyAgent:
@@ -105,7 +105,7 @@ class SafetyAgent:
         return SafetyVerdict(is_safe=True)
 
 
-# ── Evaluator Agent ──────────────────────────────────────────────────────
+# Evaluator Agent
 
 
 class EvaluatorAgent:
@@ -145,7 +145,7 @@ class EvaluatorAgent:
         )
 
 
-# ── Responder Agent ──────────────────────────────────────────────────────
+# Responder Agent
 
 
 class ResponderAgent:
